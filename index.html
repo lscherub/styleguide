@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Style Guide Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .input-section {
+            padding: 40px;
+            background: #f8fafc;
+        }
+
+        .url-input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .url-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .url-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .analyze-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            padding: 40px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: #2d3748;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .color-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .color-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .color-swatch {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .color-code {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .color-type {
+            font-size: 0.9rem;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .font-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .font-item {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .font-sample {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .font-name {
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .font-usage {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .success {
+            background: #c6f6d5;
+            color: #2f855a;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .download-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(72, 187, 120, 0.3);
+        }
+
+        .stats {
+            background: #edf2f7;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Style Guide Generator</h1>
+            <p>Extract color palettes and fonts from any website</p>
+        </div>
+
+        <div class="input-section">
+            <div class="url-input-group">
+                <input type="url" class="url-input" id="urlInput" placeholder="Enter website URL (e.g., https://example.com)" />
+                <button class="analyze-btn" id="analyzeBtn">Analyze Style</button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <div>🔍 Analyzing website styles...</div>
+            <div style="font-size: 0.9rem; margin-top: 10px; opacity: 0.7;">This may take a few seconds...</div>
+        </div>
+
+        <div class="results" id="results">
+            <div class="stats" id="stats">
+                <!-- Stats will be populated here -->
+            </div>
+
+            <div class="section">
+                <h2>🎨 Color Palette</h2>
+                <div class="color-palette" id="colorPalette">
+                    <!-- Colors will be populated here -->
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📝 Typography</h2>
+                <div class="font-list" id="fontList">
+                    <!-- Fonts will be populated here -->
+                </div>
+            </div>
+
+            <div class="download-section">
+                <button class="download-btn" id="downloadBtn">📥 Download Style Guide (TXT)</button>
+                <button class="download-btn" id="downloadJsonBtn">📋 Download JSON</button>
+            </div>
+        </div>
+
+        <div class="error" id="error" style="display: none;">
+            <!-- Error messages will appear here -->
+        </div>
+
+        <div class="success" id="success" style="display: none;">
+            <!-- Success messages will appear here -->
+        </div>
+    </div>
+
+    <script>
+        let currentStyleData = null;
+
+        document.getElementById('analyzeBtn').addEventListener('click', analyzeWebsite);
+        document.getElementById('downloadBtn').addEventListener('click', downloadStyleGuide);
+        document.getElementById('downloadJsonBtn').addEventListener('click', downloadJSON);
+
+        async function analyzeWebsite() {
+            const url = document.getElementById('urlInput').value.trim();
+            
+            if (!url) {
+                showError('Please enter a valid URL');
+                return;
+            }
+
+            if (!isValidUrl(url)) {
+                showError('Please enter a valid URL starting with http:// or https://');
+                return;
+            }
+
+            showLoading(true);
+            hideMessages();
+
+            try {
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: url })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentStyleData = data;
+                    displayResults(data);
+                    showSuccess(`Successfully analyzed ${data.url}`);
+                } else {
+                    showError(data.error || 'Failed to analyze website');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Network error. Make sure the server is running.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function displayResults(data) {
+            displayStats(data);
+            displayColors(data.colors);
+            displayFonts(data.fonts);
+            document.getElementById('results').classList.add('show');
+        }
+
+        function displayStats(data) {
+            const stats = document.getElementById('stats');
+            stats.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-number">${data.colors.length}</div>
+                    <div class="stat-label">Colors Found</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${data.fonts.length}</div>
+                    <div class="stat-label">Fonts Found</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${new Date(data.timestamp).toLocaleDateString()}</div>
+                    <div class="stat-label">Analyzed</div>
+                </div>
+            `;
+        }
+
+        function displayColors(colors) {
+            const colorPalette = document.getElementById('colorPalette');
+            colorPalette.innerHTML = '';
+
+            if (colors.length === 0) {
+                colorPalette.innerHTML = '<p style="text-align: center; color: #718096;">No colors found</p>';
+                return;
+            }
+
+            colors.forEach(color => {
+                const colorItem = document.createElement('div');
+                colorItem.className = 'color-item';
+                colorItem.title = `Click to copy ${color.hex}`;
+                colorItem.onclick = () => copyToClipboard(color.hex);
+                colorItem.innerHTML = `
+                    <div class="color-swatch" style="background-color: ${color.hex}"></div>
+                    <div class="color-code">${color.hex}</div>
+                    <div class="color-type">${color.type}</div>
+                `;
+                colorPalette.appendChild(colorItem);
+            });
+        }
+
+        function displayFonts(fonts) {
+            const fontList = document.getElementById('fontList');
+            fontList.innerHTML = '';
+
+            if (fonts.length === 0) {
+                fontList.innerHTML = '<p style="text-align: center; color: #718096;">No fonts found</p>';
+                return;
+            }
+
+            fonts.forEach(font => {
+                const fontItem = document.createElement('div');
+                fontItem.className = 'font-item';
+                fontItem.innerHTML = `
+                    <div class="font-sample" style="font-family: '${font.name}', sans-serif">${font.sample}</div>
+                    <div class="font-name">${font.name}</div>
+                    <div class="font-usage">${font.usage}</div>
+                `;
+                fontList.appendChild(fontItem);
+            });
+        }
+
+        function downloadStyleGuide() {
+            if (!currentStyleData) return;
+
+            const styleGuide = generateStyleGuideText(currentStyleData);
+            downloadFile(styleGuide, 'style-guide.txt', 'text/plain');
+        }
+
+        function downloadJSON() {
+            if (!currentStyleData) return;
+
+            const jsonData = JSON.stringify(currentStyleData, null, 2);
+            downloadFile(jsonData, 'style-guide.json', 'application/json');
+        }
+
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function generateStyleGuideText(data) {
+            let guide = `WEBSITE STYLE GUIDE\n`;
+            guide += `===================\n\n`;
+            guide += `Website: ${data.url}\n`;
+            guide += `Generated: ${new Date(data.timestamp).toLocaleString()}\n\n`;
+            
+            guide += `COLOR PALETTE (${data.colors.length} colors)\n`;
+            guide += `${'-'.repeat(30)}\n`;
+            data.colors.forEach(color => {
+                guide += `${color.hex.padEnd(8)} | ${color.rgb.padEnd(20)} | ${color.type}\n`;
+            });
+            
+            guide += `\nTYPOGRAPHY (${data.fonts.length} fonts)\n`;
+            guide += `${'-'.repeat(30)}\n`;
+            data.fonts.forEach(font => {
+                guide += `${font.name}\n  Usage: ${font.usage}\n\n`;
+            });
+            
+            guide += `USAGE NOTES\n`;
+            guide += `${'-'.repeat(12)}\n`;
+            guide += `This style guide was automatically generated from the website's CSS.\n`;
+            guide += `Review and adjust colors and fonts as needed for your project.\n`;
+            guide += `Some colors may be used for borders, shadows, or other design elements.\n`;
+            
+            return guide;
+        }
+
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showSuccess(`Copied ${text} to clipboard!`);
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        }
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+            document.getElementById('analyzeBtn').disabled = show;
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('success');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function hideMessages() {
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('success').style.display = 'none';
+        }
+
+        // Allow Enter key to trigger analysis
+        document.getElementById('urlInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                analyzeWebsite();
+            }
+        });
+    </script>
+</body>
+</html>
