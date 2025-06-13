@@ -1,0 +1,27 @@
+{
+  "name": "website-style-guide-generator",
+  "version": "1.0.0",
+  "description": "A web application that extracts color palettes and fonts from any website",
+  "main": "api/analyze.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Build step not needed for static files'",
+    "start": "vercel dev"
+  },
+  "keywords": [
+    "style-guide",
+    "colors",
+    "fonts",
+    "web-scraping",
+    "css-analysis"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
