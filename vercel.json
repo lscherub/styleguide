@@ -16,9 +16,4 @@
       "dest": "/$1"
     }
   ],
-  "functions": {
-    "api/analyze.js": {
-      "maxDuration": 30
-    }
-  }
 }
